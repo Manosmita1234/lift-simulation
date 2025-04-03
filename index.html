@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <Meta charset="UTF-8">
+        <title>Lift simulation</title>
+        <meta name="viewport" content = "width=device-width,initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        
+            
+                <div id="container">
+                    <form>
+                        <h1>Lift Simulator</h1>
+                        <label for="Nfloor">Enter no. of floors:</label><br>
+                        <input type="number" id="Nfloor" required ><br>
+                        <label for="Nlift">Enter no. of lifts:</label><br>
+                        <input type="number" id="Nlift" required><br>
+                        <button id="simulatebtn" onclick="generate(event)">Simulate</button>
+                    </form>
+                   
+                </div>
+                <div id="building"></div>
+                <script src="script.js"></script>
+           </body>
+        
+</html>
