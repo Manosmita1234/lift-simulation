@@ -82,7 +82,7 @@ button:hover{
     align-items: center;
     font-weight: bold;
     order: 2;
-    
+    position: relative;
     
 }
 
@@ -104,8 +104,18 @@ button:hover{
 .leftDoor, .rightDoor{
     border: 2px solid black;
     height: 120px;
-    width: 35px;
+    width: 50%;
+    position: absolute;
 }
+
+.leftDoor{
+    left: 0;
+}
+
+.rightDoor{
+    right: 0;
+}
+
 
 
 

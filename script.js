@@ -26,6 +26,7 @@ let simulateBtn = document.getElementById("simulatebtn");
                     lift.className = "lift";
                     lift.textContent = `lift${j}`;
                     lift.dataset.currentFloor = 1;
+                    lift.dataset.ismoving = "false";
                     floor.appendChild(lift);
                     lifts.push(lift);
 
@@ -52,7 +53,7 @@ let simulateBtn = document.getElementById("simulatebtn");
             upbtn.className = `upbtn`;
             upbtn.innerHTML = `&#8679;`;
             btncontainer.appendChild(upbtn);
-            upbtn.addEventListener("click",()=> movelift(i,lifts[0]));
+            upbtn.addEventListener("click",()=> movelift(i,lifts));
         }
        
         
@@ -62,23 +63,49 @@ let simulateBtn = document.getElementById("simulatebtn");
             downbtn.className = `downbtn`;
             downbtn.innerHTML= `&#8681;`;
             btncontainer.appendChild(downbtn);
-            downbtn.addEventListener("click",()=> movelift(i,lifts[2]));
+            downbtn.addEventListener("click",()=> movelift(i,lifts));
         }
                      
      }
     
     }
 
-    
+    let activeRequests = new Set();
 
-    function movelift(targetFloor,lift){
+    function movelift(targetFloor,lifts){
+       if(activeRequests.has(targetFloor) )return;
+        let nearestLift = null;
+        let minDistance = Infinity;
+        
 
-        let floorHeight = 120;
-        let currentFloor = Number(lift.dataset.currentFloor);
-        let distance = (targetFloor - currentFloor)*floorHeight;
-        lift.style.transform = `translateY(${-distance}px)`;
-        lift.style.transition = "transform 2s ease-in-out"; 
-        lift.dataset.currentFloor = targetFloor;  
+        lifts.forEach((lift) => {
+            let currentFloor = Number(lift.dataset.currentFloor);
+            let distance = Math.abs(targetFloor - currentFloor);
+            if (distance<minDistance && lift.dataset.ismoving === "false"){
+                minDistance = distance;
+                nearestLift = lift;
+            }
+            
+        });
+        
+        if(nearestLift){
+           activeRequests.add(targetFloor);
+            nearestLift.dataset.ismoving = "true";
+            let floorHeight = 120;
+            let currentFloor = Number(nearestLift.dataset.currentFloor)
+            let distance = (targetFloor - currentFloor)*floorHeight;
+            nearestLift.style.transform = `translateY(${-distance}px)`;
+
+            nearestLift.style.transition = "transform 2s ease-in-out";
+            nearestLift.dataset.currentFloor = targetFloor;
+
+            setTimeout(()=>{
+                nearestLift.dataset.ismoving = "false";
+                activeRequests.delete(targetFloor);
+            },2000);
+            
+        }
+
 
     }
 
