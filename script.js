@@ -1,10 +1,10 @@
 
 
-let simulateBtn = document.getElementById("simulatebtn");
+//let simulateBtn = document.getElementById("simulatebtn");
 
 
     function generate(event){
-        event.preventDefault();
+       event.preventDefault();
 
         let floorInput = Number(document.getElementById("Nfloor").value);
         let liftInput = Number(document.getElementById("Nlift").value);
@@ -20,6 +20,10 @@ let simulateBtn = document.getElementById("simulatebtn");
             floor.dataset.floorNumber = i;
             building.appendChild(floor);
 
+            let liftContainer = document.createElement("div");
+            liftContainer.className = "liftContainer";
+            floor.appendChild(liftContainer);
+
             if(i==1){  //creation of lifts and append to floor
                 for(let j = liftInput; j>=1; j--){
                     let lift = document.createElement("div");
@@ -27,7 +31,7 @@ let simulateBtn = document.getElementById("simulatebtn");
                     lift.textContent = `lift${j}`;
                     lift.dataset.currentFloor = 1;
                     lift.dataset.ismoving = "false";
-                    floor.appendChild(lift);
+                    liftContainer.appendChild(lift);
                     lifts.push(lift);
 
                     let leftDoor = document.createElement("div");
@@ -80,7 +84,7 @@ let simulateBtn = document.getElementById("simulatebtn");
 
         lifts.forEach((lift) => {
             let currentFloor = Number(lift.dataset.currentFloor);
-            let distance = Math.abs(targetFloor - currentFloor);
+            let distance = targetFloor - currentFloor;
             if (distance<minDistance && lift.dataset.ismoving === "false"){
                 minDistance = distance;
                 nearestLift = lift;
@@ -100,9 +104,16 @@ let simulateBtn = document.getElementById("simulatebtn");
             nearestLift.dataset.currentFloor = targetFloor;
 
             setTimeout(()=>{
-                nearestLift.dataset.ismoving = "false";
-                activeRequests.delete(targetFloor);
+                nearestLift.classList.add("open");
+
+
+                setTimeout(()=>{
+                    nearestLift.classList.remove("open");
+                    nearestLift.dataset.ismoving = "false";
+                    activeRequests.delete(targetFloor);
+                },2000);
             },2000);
+           
             
         }
 

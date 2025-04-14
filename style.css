@@ -67,7 +67,7 @@ button:hover{
     font-weight: bold;
     flex-direction:row;
     gap:5px;
-    /*overflow: hidden;*/
+   /* overflow: hidden;*/
     background-color: antiquewhite;
     
 }
@@ -81,9 +81,16 @@ button:hover{
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    order: 2;
+   /* order: 2;*/
     position: relative;
     
+}
+
+.liftContainer{
+    display: flex;
+    flex-direction: row-reverse;
+    order: 2;
+    background-color:antiquewhite ;
 }
 
 .btncontainer{
@@ -106,6 +113,7 @@ button:hover{
     height: 120px;
     width: 50%;
     position: absolute;
+    transition: transform 1s ease-in-out;
 }
 
 .leftDoor{
@@ -118,7 +126,13 @@ button:hover{
 
 
 
-
+.lift.open .leftDoor {
+    transform: translateX(-100%);
+  }
+  
+  .lift.open .rightDoor {
+    transform: translateX(100%);
+  }
 
   
 
